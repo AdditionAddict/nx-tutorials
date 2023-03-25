@@ -1,42 +1,55 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import styles from './app.module.css';
 
-import { Route, Routes, Link } from 'react-router-dom';
+import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+import MessageBoard from './message-board';
+import Welcome from './welcome';
+import AllPosts from './all-posts';
+import PostView from './post-view';
+import Navbar from './navbar';
+
+function Layout() {
+  return (
+    <>
+      <Navbar />
+      <Outlet />
+    </>
+  )
+}
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <MessageBoard />,
+        children: [
+          {
+            path: ':pageNumber',
+            element: <AllPosts />
+          },
+          {
+            path: 'post/:id',
+            element: <PostView />
+          }
+        ]
+      },
+      {
+        path: 'welcome',
+        element: <Welcome />
+      }
+    ]
+  }
+])
+
 
 export function App() {
   return (
-    <>
-      <div role="navigation">
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/page-2">Page 2</Link>
-          </li>
-        </ul>
-      </div>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <div>
-              This is the generated root route.{' '}
-              <Link to="/page-2">Click here for page 2.</Link>
-            </div>
-          }
-        />
-        <Route
-          path="/page-2"
-          element={
-            <div>
-              <Link to="/">Click here to go back to root page.</Link>
-            </div>
-          }
-        />
-      </Routes>
-    </>
+    <RouterProvider router={router} />
   );
 }
 
 export default App;
+
