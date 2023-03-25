@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 
 @Component({
+  standalone: true,
   selector: 'nx-tutorials-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  template: ` <h1>App Start</h1> `,
 })
-export class AppComponent {
-  title = 'fireship-tailwind';
-}
+export class AppComponent {}
